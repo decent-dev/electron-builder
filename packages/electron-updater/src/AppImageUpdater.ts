@@ -96,13 +96,13 @@ export class AppImageUpdater extends BaseUpdater {
     const spawnOptions: SpawnOptions = {
       detached: true,
       stdio: "ignore",
-      env: {
-        APPIMAGE_SILENT_INSTALL: "true",
-      },
+      // env: {
+      //   APPIMAGE_SILENT_INSTALL: "true",
+      // },
     }
 
     if (!isForceRunAfter) {
-      spawnOptions.env.APPIMAGE_EXIT_AFTER_INSTALL = "true"
+      // spawnOptions.env.APPIMAGE_EXIT_AFTER_INSTALL = "true"
     }
 
     let destination: string
@@ -112,13 +112,13 @@ export class AppImageUpdater extends BaseUpdater {
     }
     else {
       destination = path.join(path.dirname(appImageFile), path.basename(installerPath))
-      spawnOptions.env.APPIMAGE_DELETE_OLD_FILE = appImageFile
+      // spawnOptions.env.APPIMAGE_DELETE_OLD_FILE = appImageFile
     }
     move(installerPath, destination, {overwrite: true})
       .then(() => chmod(destination, "0755"))
       .then(() => {
         try {
-          spawn(installerPath, args, spawnOptions)
+          spawn(destination, args, spawnOptions)
             .unref()
         }
         catch (e) {
